@@ -2,11 +2,13 @@ package com.speedtweaks.client;
 
 import com.speedtweaks.client.gui.SpeedMenuScreen;
 import com.speedtweaks.config.SpeedConfig;
+import com.speedtweaks.config.RealTime;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.world.World;
 import org.lwjgl.glfw.GLFW;
 
 public class SpeedTweaksClient implements ClientModInitializer {
@@ -25,6 +27,9 @@ public class SpeedTweaksClient implements ClientModInitializer {
 				if (client.currentScreen == null) {
 					client.setScreen(new SpeedMenuScreen(null));
 				}
+			}
+			if (SpeedConfig.INSTANCE.syncRealTime && client.world != null && client.world.getRegistryKey() == World.OVERWORLD) {
+				client.world.setTimeOfDay(RealTime.minecraftTimeOfDay());
 			}
 			if (client.player != null) {
 				client.player.getAbilities().setFlySpeed(SpeedConfig.INSTANCE.effectiveFlySpeed());

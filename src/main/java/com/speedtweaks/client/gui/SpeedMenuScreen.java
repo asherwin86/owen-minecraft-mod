@@ -12,6 +12,7 @@ public class SpeedMenuScreen extends Screen {
 	private ButtonWidget infiniteFlyButton;
 	private ButtonWidget infiniteMinecartButton;
 	private ButtonWidget keepSpeedButton;
+	private ButtonWidget realTimeButton;
 	private ValueSlider flySlider;
 	private ValueSlider minecartSlider;
 
@@ -25,7 +26,7 @@ public class SpeedMenuScreen extends Screen {
 		SpeedConfig cfg = SpeedConfig.INSTANCE;
 		int w = 200;
 		int x = width / 2 - w / 2;
-		int y = height / 2 - 70;
+		int y = height / 2 - 90;
 
 		flySlider = addDrawableChild(new ValueSlider(x, y, w, "Fly Speed",
 				SpeedConfig.VANILLA_FLY_SPEED, SpeedConfig.MAX_FLY_SPEED, cfg.flySpeed,
@@ -48,8 +49,13 @@ public class SpeedMenuScreen extends Screen {
 			refresh();
 		}).dimensions(x, y + 108, w, 20).build());
 
+		realTimeButton = addDrawableChild(ButtonWidget.builder(Text.empty(), b -> {
+			cfg.syncRealTime = !cfg.syncRealTime;
+			refresh();
+		}).dimensions(x, y + 144, w, 20).build());
+
 		addDrawableChild(ButtonWidget.builder(Text.literal("Done"), b -> close())
-				.dimensions(x, y + 140, w, 20).build());
+				.dimensions(x, y + 176, w, 20).build());
 
 		refresh();
 	}
@@ -59,6 +65,7 @@ public class SpeedMenuScreen extends Screen {
 		infiniteFlyButton.setMessage(Text.literal("Infinite Fly Speed: " + (cfg.infiniteFly ? "ON" : "OFF")));
 		infiniteMinecartButton.setMessage(Text.literal("Infinite Minecart Speed: " + (cfg.infiniteMinecart ? "ON" : "OFF")));
 		keepSpeedButton.setMessage(Text.literal("Keep Cart Speed (no powered rails): " + (cfg.keepMinecartSpeed ? "ON" : "OFF")));
+		realTimeButton.setMessage(Text.literal("Real-Time Sunrise/Sunset: " + (cfg.syncRealTime ? "ON" : "OFF")));
 		flySlider.active = !cfg.infiniteFly;
 		minecartSlider.active = !cfg.infiniteMinecart;
 	}
@@ -72,7 +79,7 @@ public class SpeedMenuScreen extends Screen {
 	@Override
 	public void render(net.minecraft.client.gui.DrawContext ctx, int mouseX, int mouseY, float delta) {
 		renderBackground(ctx);
-		ctx.drawCenteredTextWithShadow(textRenderer, title, width / 2, height / 2 - 100, 0xFFFFFF);
+		ctx.drawCenteredTextWithShadow(textRenderer, title, width / 2, height / 2 - 112, 0xFFFFFF);
 		super.render(ctx, mouseX, mouseY, delta);
 	}
 

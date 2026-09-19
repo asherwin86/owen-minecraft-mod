@@ -29,6 +29,7 @@ public class SpeedConfig {
 	public boolean infiniteMinecart = false;
 	public double minecartSpeed = VANILLA_MINECART_SPEED;
 	public boolean keepMinecartSpeed = false;
+	public boolean syncRealTime = false;
 
 	public float effectiveFlySpeed() {
 		return infiniteFly ? INFINITE_FLY_SPEED : flySpeed;
