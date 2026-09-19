@@ -11,6 +11,7 @@ public class SpeedMenuScreen extends Screen {
 	private final Screen parent;
 	private ButtonWidget infiniteFlyButton;
 	private ButtonWidget infiniteMinecartButton;
+	private ButtonWidget keepSpeedButton;
 	private ValueSlider flySlider;
 	private ValueSlider minecartSlider;
 
@@ -42,8 +43,13 @@ public class SpeedMenuScreen extends Screen {
 			refresh();
 		}).dimensions(x, y + 84, w, 20).build());
 
+		keepSpeedButton = addDrawableChild(ButtonWidget.builder(Text.empty(), b -> {
+			cfg.keepMinecartSpeed = !cfg.keepMinecartSpeed;
+			refresh();
+		}).dimensions(x, y + 108, w, 20).build());
+
 		addDrawableChild(ButtonWidget.builder(Text.literal("Done"), b -> close())
-				.dimensions(x, y + 120, w, 20).build());
+				.dimensions(x, y + 140, w, 20).build());
 
 		refresh();
 	}
@@ -52,6 +58,7 @@ public class SpeedMenuScreen extends Screen {
 		SpeedConfig cfg = SpeedConfig.INSTANCE;
 		infiniteFlyButton.setMessage(Text.literal("Infinite Fly Speed: " + (cfg.infiniteFly ? "ON" : "OFF")));
 		infiniteMinecartButton.setMessage(Text.literal("Infinite Minecart Speed: " + (cfg.infiniteMinecart ? "ON" : "OFF")));
+		keepSpeedButton.setMessage(Text.literal("Keep Cart Speed (no powered rails): " + (cfg.keepMinecartSpeed ? "ON" : "OFF")));
 		flySlider.active = !cfg.infiniteFly;
 		minecartSlider.active = !cfg.infiniteMinecart;
 	}
